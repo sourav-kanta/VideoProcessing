@@ -6,5 +6,5 @@ package com.example.userpc.videoprocessing;
 public interface CallBackListener {
 
     void onTaskCompleted();
-
+   //
 }
