@@ -3,6 +3,8 @@ package com.example.userpc.videoprocessing;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
+//Converting to grayscale
+
 public class GrayScale {
 
     private Bitmap bitmap;
