@@ -3,6 +3,7 @@ package com.example.userpc.videoprocessing;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
@@ -19,11 +20,11 @@ import wseemann.media.FFmpegMediaMetadataRetriever;
 public class FrameSeparator extends AsyncTask<Void,Void,Void> {
 
     private CallBackListener callBackListener;
-    private FFmpegMediaMetadataRetriever meg;
+    private MediaMetadataRetriever meg;
     ProgressDialog progressDialog;
     Context context;
 
-    FrameSeparator(FFmpegMediaMetadataRetriever fmeg, Context con)
+    FrameSeparator(MediaMetadataRetriever fmeg, Context con)
     {
         meg=fmeg;
         context=con;
@@ -34,7 +35,7 @@ public class FrameSeparator extends AsyncTask<Void,Void,Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         progressDialog.setMessage("Please wait");
-        progressDialog.show();
+//        progressDialog.show();
         File folder = new File(Environment.getExternalStorageDirectory() +
                 File.separator + "Bitmaps");
         boolean success = true;
@@ -50,13 +51,12 @@ public class FrameSeparator extends AsyncTask<Void,Void,Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        String total_time=meg.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_DURATION);
-        String video_name=meg.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_FILENAME);
+        String total_time=meg.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
         long time=Long.parseLong(total_time);
         Log.e("Time",time+"");
         for(long i=1;i<time;i=i+100)
         {
-            Bitmap bmp=meg.getFrameAtTime(i*1000,FFmpegMediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+            Bitmap bmp=meg.getFrameAtTime(i*1000,MediaMetadataRetriever.OPTION_CLOSEST);
             if(bmp==null) {
                 Log.e("Bitmap","null");
                 continue;
@@ -84,14 +84,16 @@ public class FrameSeparator extends AsyncTask<Void,Void,Void> {
                     e.printStackTrace();
                 }
             }
+            bmp.recycle();
         }
+
         return null;
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        progressDialog.dismiss();
+       // progressDialog.dismiss();
         meg.release();
         //callBackListener.onTaskCompleted();
     }

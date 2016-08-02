@@ -7,11 +7,12 @@ import android.graphics.Color;
 
 public class GrayScale {
 
-    private Bitmap bitmap;
+    private Bitmap bitmap,bmp;
 
     public GrayScale(Bitmap bit)
     {
-        bitmap=bit;
+        bmp=bit;
+        bitmap=Bitmap.createBitmap(bit.getWidth(),bit.getHeight(), Bitmap.Config.RGB_565);
     }
 
     public Bitmap toGrayScale()
@@ -22,7 +23,7 @@ public class GrayScale {
         {
             for(int j=0;j<bitmap.getWidth();j++)
             {
-                int col=bitmap.getPixel(j,i);
+                int col=bmp.getPixel(j,i);
                 int new_col;
                 switch(col_selec)
                 {

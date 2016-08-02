@@ -1,6 +1,7 @@
 package com.example.userpc.videoprocessing;
 
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +12,7 @@ import wseemann.media.FFmpegMediaMetadataRetriever;
 
 public class MainActivity extends AppCompatActivity implements CallBackListener{
 
-    FFmpegMediaMetadataRetriever med;
+    MediaMetadataRetriever med;
     private static final int FILE_REQUEST=1;
     RelativeLayout firstactivity;
 
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements CallBackListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         firstactivity= (RelativeLayout) findViewById(R.id.main_screen);
-        med=new FFmpegMediaMetadataRetriever();
+        med=new MediaMetadataRetriever();
         startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT).setType("file/*"),FILE_REQUEST);
     }
 
