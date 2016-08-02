@@ -61,6 +61,10 @@ public class FrameSeparator extends AsyncTask<Void,Void,Void> {
                 Log.e("Bitmap","null");
                 continue;
             }
+            // convert to  grayscale
+
+            bmp=new GrayScale(bmp).toGrayScale();
+
             // Save Bitmap
             FileOutputStream out = null;
             try {
