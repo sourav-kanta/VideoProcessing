@@ -57,7 +57,7 @@ public class ServerTransaction extends Thread{
 				dout.writeUTF(files.get(i).getName());
 				int count;
 				fstream=new FileInputStream(files.get(i));
-				while ((count = fstream.read(bytes)) > 0) {
+				while ((count = fstream.read(bytes)) >= 0) {
 					out.write(bytes, 0, count);
 				}
 				fstream.close();

@@ -83,7 +83,7 @@ public class ReceiverTransaction extends Thread{
 				String filenm=din.readUTF();
 				out = new FileOutputStream(Environment.getExternalStorageDirectory()+"//VideoOutput//"+filenm);
 				int count;
-				while ((count = in.read(bytes)) > 0) {
+				while ((count = in.read(bytes)) >= 0) {
 					out.write(bytes, 0, count);
 
 				}
@@ -91,6 +91,10 @@ public class ReceiverTransaction extends Thread{
 				Log.e("Receiver","File received");
 				out.flush();
 				out.close();
+				//din.close();
+				//in.close();
+				//in=sock.getInputStream();
+				//din=new DataInputStream(in);
 				//din.reset();
 			}
 			din.close();
