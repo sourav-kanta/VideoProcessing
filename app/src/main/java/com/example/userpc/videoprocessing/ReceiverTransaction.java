@@ -67,9 +67,8 @@ public class ReceiverTransaction extends Thread{
 		{
 			Log.e("Sender", "active");
 			InputStream in=sock.getInputStream();
-			InputStream inp=sock.getInputStream();
 			OutputStream out=null;
-			DataInputStream din=new DataInputStream(inp);
+			DataInputStream din=new DataInputStream(in);
 			int incoming_size=Integer.parseInt(din.readUTF());
 			Log.e("Size",incoming_size+"");
 			int i=0;

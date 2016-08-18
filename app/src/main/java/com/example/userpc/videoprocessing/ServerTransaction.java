@@ -46,9 +46,8 @@ public class ServerTransaction extends Thread{
 		{
 			InputStream in=socket.getInputStream();
 			OutputStream out=socket.getOutputStream();
-			OutputStream outm=socket.getOutputStream();
 			DataInputStream din=new DataInputStream(in);
-			DataOutputStream dout=new DataOutputStream(outm);
+			DataOutputStream dout=new DataOutputStream(out);
 			dout.writeUTF(size+"");
 			int i=0;
 			FileInputStream fstream;
