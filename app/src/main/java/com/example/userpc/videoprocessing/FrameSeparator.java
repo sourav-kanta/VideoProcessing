@@ -11,6 +11,7 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import wseemann.media.FFmpegMediaMetadataRetriever;
 
@@ -23,19 +24,22 @@ public class FrameSeparator extends AsyncTask<Void,Void,Void> {
     private MediaMetadataRetriever meg;
     ProgressDialog progressDialog;
     Context context;
+    ArrayList<File> filestore;
+    SenderThread senderThread;
 
     FrameSeparator(MediaMetadataRetriever fmeg, Context con)
     {
         meg=fmeg;
         context=con;
         progressDialog=new ProgressDialog(context);
+        filestore=new ArrayList<>();
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
         progressDialog.setMessage("Please wait");
-//        progressDialog.show();
+        progressDialog.show();
         File folder = new File(Environment.getExternalStorageDirectory() +
                 File.separator + "Bitmaps");
         boolean success = true;
@@ -72,6 +76,7 @@ public class FrameSeparator extends AsyncTask<Void,Void,Void> {
                         File.separator + "Bitmaps"+File.separator+i+".jpeg");
                 out = new FileOutputStream(file);
                 bmp.compress(Bitmap.CompressFormat.JPEG, 50, out);
+                filestore.add(file);
                 Log.e("Frame","File written");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -93,8 +98,10 @@ public class FrameSeparator extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-       // progressDialog.dismiss();
+        progressDialog.dismiss();
         meg.release();
+        senderThread=new SenderThread(context,filestore);
+        senderThread.start();
         //callBackListener.onTaskCompleted();
     }
 }

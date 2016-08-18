@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import wseemann.media.FFmpegMediaMetadataRetriever;
@@ -16,13 +17,24 @@ public class MainActivity extends AppCompatActivity implements CallBackListener{
     private static final int FILE_REQUEST=1;
     RelativeLayout firstactivity;
 
+    public void send(View v)
+    {
+        startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT).setType("file/*"),FILE_REQUEST);
+    }
+
+    public void receive(View v)
+    {
+        ReceiveThread receiveThread=new ReceiveThread(MainActivity.this);
+        receiveThread.start();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         firstactivity= (RelativeLayout) findViewById(R.id.main_screen);
         med=new MediaMetadataRetriever();
-        startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT).setType("file/*"),FILE_REQUEST);
+
     }
 
     void openFile(Uri uri)
