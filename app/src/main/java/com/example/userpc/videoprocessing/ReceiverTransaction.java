@@ -84,7 +84,7 @@ public class ReceiverTransaction extends Thread{
 				long size=din.readLong();
 				out = new FileOutputStream(Environment.getExternalStorageDirectory()+"//VideoOutput//"+filenm);
 				int count;
-				while ((count = din.read(bytes,0, (int) Math.min(bytes.length,size))) >= 0) {
+				while (size>0  && (count = din.read(bytes,0, (int) Math.min(bytes.length,size))) > 0) {
 					out.write(bytes, 0, count);
 					size-=count;
 				}
