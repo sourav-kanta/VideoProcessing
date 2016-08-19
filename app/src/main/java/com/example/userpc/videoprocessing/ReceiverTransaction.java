@@ -81,21 +81,18 @@ public class ReceiverTransaction extends Thread{
 			while(i<incoming_size)
 			{
 				String filenm=din.readUTF();
+				long size=din.readLong();
 				out = new FileOutputStream(Environment.getExternalStorageDirectory()+"//VideoOutput//"+filenm);
 				int count;
-				while ((count = in.read(bytes)) >= 0) {
+				while ((count = din.read(bytes,0, (int) Math.min(bytes.length,size))) >= 0) {
 					out.write(bytes, 0, count);
-
+					size-=count;
 				}
 				i++;
 				Log.e("Receiver","File received");
 				out.flush();
 				out.close();
-				//din.close();
-				//in.close();
-				//in=sock.getInputStream();
-				//din=new DataInputStream(in);
-				//din.reset();
+				files.add(new File(Environment.getExternalStorageDirectory()+"//VideoOutput//"+filenm));
 			}
 			din.close();
 			in.close();

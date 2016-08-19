@@ -1,15 +1,12 @@
 package com.example.userpc.videoprocessing;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -55,6 +52,7 @@ public class ServerTransaction extends Thread{
 			while(i<size)
 			{
 				dout.writeUTF(files.get(i).getName());
+				dout.writeLong(files.get(i).length());
 				int count;
 				fstream=new FileInputStream(files.get(i));
 				while ((count = fstream.read(bytes)) >= 0) {
